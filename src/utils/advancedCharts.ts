@@ -137,7 +137,7 @@ export const generate3DBarChart = (config: ChartConfig): echarts.EChartsOption =
           color: '#900'
         }
       }
-    }]
+    }] as any  // Cast to any for 3D chart types
   };
 };
 
@@ -217,7 +217,7 @@ export const generate3DScatterPlot = (config: ChartConfig): echarts.EChartsOptio
         }
       }
     },
-    series: scatter3DData
+    series: scatter3DData as any
   };
 };
 
@@ -284,7 +284,7 @@ export const generate3DSurfacePlot = (config: ChartConfig): echarts.EChartsOptio
       },
       data: generateSurfaceData(),
       shading: 'color'
-    }]
+    }] as any
   };
 };
 
@@ -353,7 +353,7 @@ export const generateGlobeVisualization = (config: ChartConfig): echarts.ECharts
           color: '#ff5722'
         }
       }
-    }]
+    }] as any
   };
 };
 
@@ -739,7 +739,7 @@ export const generateRidgePlot = (data: number[][], labels: string[]): echarts.E
       name: 'Value'
     },
     yAxis: {
-      type: 'value',
+      type: 'category',
       data: labels,
       inverse: true,
       axisLabel: {

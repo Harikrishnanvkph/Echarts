@@ -291,7 +291,7 @@ export class LinearRegression {
     // Approximate t-value using inverse t-distribution
     const a = 1 / (df - 0.5);
     const b = 48 / (a * a);
-    const c = ((20700 * a / b - 98) * a - 16) * a + 96.36;
+    let c = ((20700 * a / b - 98) * a - 16) * a + 96.36;
     const d = ((94.5 / (b + c) - 3) / b + 1) * Math.sqrt(a * Math.PI / 2) * df;
     let x = d * probability;
     let y = Math.pow(x, 2 / df);

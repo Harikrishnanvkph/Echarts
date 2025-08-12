@@ -78,6 +78,7 @@ export interface ChartOptions {
   backgroundColor?: string;
   animation?: boolean;
   animationDuration?: number;
+  autoRotate?: boolean;
   toolbox?: {
     show?: boolean;
     feature?: any;
@@ -99,7 +100,7 @@ export interface ChartOptions {
 }
 
 export interface ExportOptions {
-  format: 'png' | 'svg' | 'pdf' | 'json';
+  format: 'png' | 'jpg' | 'svg' | 'pdf' | 'json' | 'excel' | 'csv' | 'html' | 'pptx' | 'word' | 'latex' | 'markdown' | 'xml' | 'yaml';
   filename?: string;
   quality?: number;
   backgroundColor?: string;

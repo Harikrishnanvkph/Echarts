@@ -612,8 +612,8 @@ export class AnimationEngine {
 
   // Helper Methods
 
-  private mapEasing(easing: EasingFunction): string {
-    const easingMap: { [key: string]: string } = {
+  private mapEasing(easing: EasingFunction): any {
+    const easingMap: { [key: string]: any } = {
       linear: 'linear',
       quadraticIn: 'quadraticIn',
       quadraticOut: 'quadraticOut',
@@ -627,6 +627,18 @@ export class AnimationEngine {
       bounceIn: 'bounceIn',
       bounceOut: 'bounceOut',
       bounceInOut: 'bounceInOut',
+      backIn: 'backIn',
+      backOut: 'backOut',
+      backInOut: 'backInOut',
+      circularIn: 'circularIn',
+      circularOut: 'circularOut',
+      circularInOut: 'circularInOut',
+      exponentialIn: 'exponentialIn',
+      exponentialOut: 'exponentialOut',
+      exponentialInOut: 'exponentialInOut',
+      sinusoidalIn: 'sinusoidalIn',
+      sinusoidalOut: 'sinusoidalOut',
+      sinusoidalInOut: 'sinusoidalInOut'
     };
     
     return easingMap[easing] || 'linear';
