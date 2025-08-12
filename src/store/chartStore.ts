@@ -209,10 +209,32 @@ export const useChartStore = create<ChartState>()(
         importChartConfig: (configString) => {
           try {
             const config = JSON.parse(configString);
+            
+            // Validate the imported configuration
+            if (!config.type || !config.data || !config.options) {
+              throw new Error('Invalid chart configuration: missing required fields');
+            }
+            
+            // Validate data structure
+            if (!Array.isArray(config.data.series)) {
+              throw new Error('Invalid chart data: series must be an array');
+            }
+            
+            // Sanitize and validate each series
+            const sanitizedSeries = config.data.series.map((s: any) => ({
+              name: s.name || 'Unnamed Series',
+              data: Array.isArray(s.data) ? s.data : [],
+              ...s
+            }));
+            
             set(
               {
                 currentChart: {
                   ...config,
+                  data: {
+                    ...config.data,
+                    series: sanitizedSeries
+                  },
                   id: `imported-${Date.now()}`,
                   createdAt: new Date(),
                   updatedAt: new Date(),
@@ -221,8 +243,14 @@ export const useChartStore = create<ChartState>()(
               false,
               'importChartConfig'
             );
+            
+            return { success: true };
           } catch (error) {
             console.error('Failed to import chart configuration:', error);
+            return { 
+              success: false, 
+              error: error instanceof Error ? error.message : 'Unknown error occurred' 
+            };
           }
         },
 
