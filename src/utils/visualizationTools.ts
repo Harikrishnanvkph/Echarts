@@ -503,7 +503,7 @@ export function createNetworkDiagram(data: any): NetworkDiagram {
       }
     },
     legend: {
-      data: categories.map(c => c.name),
+      data: categories.map((c: { name: string }) => c.name),
       orient: 'vertical',
       left: 'left'
     },
