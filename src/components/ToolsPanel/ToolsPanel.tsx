@@ -32,7 +32,6 @@ import {
   FormControlLabel,
   Tooltip,
   Badge,
-  Grid,
   Card,
   CardContent,
   CardActions,
@@ -133,7 +132,7 @@ const StyledToolsPanel = styled(Box)(({ theme }) => ({
 
 const StyledSearchBar = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
-    borderRadius: theme.shape.borderRadius * 2,
+    borderRadius: (theme.shape.borderRadius as number) * 2,
     backgroundColor: alpha(theme.palette.primary.main, 0.05),
     '&:hover': {
       backgroundColor: alpha(theme.palette.primary.main, 0.08)
@@ -175,7 +174,7 @@ const StyledToolCard = styled(Card)(({ theme }) => ({
 
 const StyledExecutionPanel = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
-  borderRadius: theme.shape.borderRadius * 2,
+  borderRadius: (theme.shape.borderRadius as number) * 2,
   background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.02)} 0%, ${alpha(theme.palette.primary.main, 0.05)} 100%)`
 }));
 
@@ -335,7 +334,7 @@ interface ToolHistoryItem {
 // Main Component
 export const ToolsPanel: React.FC = () => {
   const theme = useTheme();
-  const { currentChart, updateChart } = useChartStore();
+  const { currentChart, updateChartOptions } = useChartStore();
   
   // State Management
   const [selectedCategory, setSelectedCategory] = useState<ToolCategory | 'all'>('all');
@@ -478,7 +477,7 @@ export const ToolsPanel: React.FC = () => {
       
       // Apply result to chart if applicable
       if (result.chartUpdate) {
-        updateChart(currentChart.id, result.chartUpdate);
+        updateChartOptions(result.chartUpdate);
       }
       
     } catch (error) {
@@ -646,7 +645,7 @@ export const ToolsPanel: React.FC = () => {
         <CardContent>
           <Box display="flex" justifyContent="space-between" alignItems="flex-start">
             <Box display="flex" alignItems="center" gap={1}>
-              {React.cloneElement(icon, { fontSize: 'small', color: 'primary' })}
+              {React.cloneElement(icon as React.ReactElement<any>, { fontSize: 'small', color: 'primary' })}
               <Typography variant="subtitle1" fontWeight={600}>
                 {tool.name}
               </Typography>
@@ -837,7 +836,7 @@ export const ToolsPanel: React.FC = () => {
             value={category}
             label={
               <Box display="flex" alignItems="center" gap={1}>
-                {React.cloneElement(categoryIcons[category as ToolCategory], { fontSize: 'small' })}
+                {React.cloneElement(categoryIcons[category as ToolCategory] as React.ReactElement<any>, { fontSize: 'small' })}
                 <span>{category}</span>
                 <Chip label={categoriesWithCounts.get(category)} size="small" />
               </Box>
@@ -865,13 +864,26 @@ export const ToolsPanel: React.FC = () => {
             </Typography>
           </Box>
         ) : (
-          <Grid container spacing={2}>
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            gap={2}
+          >
             {filteredTools.map(tool => (
-              <Grid item xs={12} sm={viewMode === 'grid' ? 6 : 12} md={viewMode === 'grid' ? 4 : 12} key={tool.id}>
+              <Box
+                key={tool.id}
+                sx={{
+                  width: {
+                    xs: '100%',
+                    sm: viewMode === 'grid' ? 'calc(50% - 8px)' : '100%',
+                    md: viewMode === 'grid' ? 'calc(33.333% - 10.667px)' : '100%'
+                  }
+                }}
+              >
                 {renderToolCard(tool)}
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
         )}
       </Box>
       
@@ -886,7 +898,7 @@ export const ToolsPanel: React.FC = () => {
           <>
             <DialogTitle>
               <Box display="flex" alignItems="center" gap={1}>
-                {React.cloneElement(toolIcons[selectedTool.icon] || <FunctionsIcon />, { color: 'primary' })}
+                {React.cloneElement((toolIcons[selectedTool.icon] || <FunctionsIcon />) as React.ReactElement<any>, { color: 'primary' })}
                 <Typography variant="h6">{selectedTool.name}</Typography>
                 {selectedTool.premium && (
                   <Chip label="Premium" color="warning" size="small" />
@@ -1013,7 +1025,7 @@ export const ToolsPanel: React.FC = () => {
                 <ListItem key={item.id}>
                   <ListItemIcon>
                     {React.cloneElement(
-                      categoryIcons[item.category],
+                      categoryIcons[item.category] as React.ReactElement<any>,
                       { fontSize: 'small' }
                     )}
                   </ListItemIcon>
