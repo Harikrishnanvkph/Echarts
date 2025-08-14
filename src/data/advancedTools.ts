@@ -167,8 +167,8 @@ const detectOutliers = (data: any[], method: string, threshold: number) => {
         }
       });
     } else if (method === 'zscore') {
-      const mean = math.mean(values);
-      const std = math.std(values);
+      const mean = Number(math.mean(values));
+      const std = Number(math.std(values));
       
       data.forEach((row, index) => {
         const zScore = Math.abs((row[column] - mean) / std);
@@ -438,8 +438,8 @@ const detectSeasonality = (data: number[], period?: number): any => {
 };
 
 const calculateSeasonalStrength = (seasonal: number[], residual: number[]): number => {
-  const varSeasonal = math.variance(seasonal);
-  const varResidual = math.variance(residual);
+  const varSeasonal = Number(math.variance(seasonal));
+  const varResidual = Number(math.variance(residual));
   return 1 - varResidual / (varSeasonal + varResidual);
 };
 
