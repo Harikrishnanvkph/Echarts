@@ -5,7 +5,12 @@ import { useChartStore } from '../../store/chartStore';
 import { generateChartOption } from '../../utils/chartGenerator';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-export const ChartPreview: React.FC = () => {
+interface ChartPreviewProps {
+  compact?: boolean;
+  fullHeight?: boolean;
+}
+
+export const ChartPreview: React.FC<ChartPreviewProps> = ({ compact = false, fullHeight = false }) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useRef<echarts.ECharts | null>(null);
   const { currentChart, isDarkMode, resetChart } = useChartStore();

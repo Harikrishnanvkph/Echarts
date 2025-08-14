@@ -29,7 +29,12 @@ import { ExportDialog } from '../Dialogs/ExportDialog';
 import { ImportDialog } from '../Dialogs/ImportDialog';
 import { SaveDialog } from '../Dialogs/SaveDialog';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  onViewChange?: (view: 'chart' | 'tools') => void;
+  activeView?: 'chart' | 'tools';
+}
+
+export const Header: React.FC<HeaderProps> = ({ onViewChange, activeView = 'chart' }) => {
   const {
     currentChart,
     isDarkMode,

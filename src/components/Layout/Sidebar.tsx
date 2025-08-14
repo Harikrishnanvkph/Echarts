@@ -42,11 +42,15 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
   );
 };
 
-const DRAWER_WIDTH = 360;
+interface SidebarProps {
+  width?: string | number;
+}
 
-export const Sidebar: React.FC = () => {
+export const Sidebar: React.FC<SidebarProps> = ({ width = 360 }) => {
   const { sidebarOpen, toggleSidebar, isPreviewMode } = useChartStore();
   const [tabValue, setTabValue] = React.useState(0);
+  
+  const DRAWER_WIDTH = typeof width === 'number' ? width : parseInt(width);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
