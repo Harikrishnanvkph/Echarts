@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import { Box, Container, Grid, useMediaQuery } from '@mui/material';
+import { Box, Container, Grid, useMediaQuery, Fab, Tooltip } from '@mui/material';
+import { Help as HelpIcon } from '@mui/icons-material';
 import { Header } from './components/Layout/Header';
 import { Sidebar } from './components/Layout/Sidebar';
 import { ChartPreview } from './components/ChartPreview/ChartPreview';
+import { ChartOptionsDebugger } from './components/Debug/ChartOptionsDebugger';
 import { useChartStore } from './store/chartStore';
 import './App.css';
 
 function App() {
   const { isDarkMode, sidebarOpen, isPreviewMode } = useChartStore();
   const [activeView, setActiveView] = useState<'chart' | 'tools'>('chart');
+  const [showDebugger, setShowDebugger] = useState(false);
   
   // Responsive breakpoints
   const isLaptop = useMediaQuery('(min-width:1024px) and (max-width:1440px)');
@@ -123,50 +126,71 @@ function App() {
               maxWidth: isLaptop ? '100%' : isDesktop ? '1920px' : '100%',
             }}
           >
-            <Grid
-              container
-              spacing={isLaptop ? 2 : 3}
-              sx={{
-                height: '100%',
-                margin: 0,
-                width: '100%',
-              }}
-            >
+            {showDebugger ? (
+              <ChartOptionsDebugger />
+            ) : (
               <Grid
-                size={12}
+                container
+                spacing={isLaptop ? 2 : 3}
                 sx={{
                   height: '100%',
-                  paddingTop: '0 !important',
-                  paddingLeft: '0 !important',
+                  margin: 0,
+                  width: '100%',
                 }}
               >
-                <Box
+                <Grid
+                  size={12}
                   sx={{
                     height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    backgroundColor: 'background.paper',
-                    borderRadius: 2,
-                    boxShadow: theme.shadows[1],
-                    overflow: 'hidden',
+                    paddingTop: '0 !important',
+                    paddingLeft: '0 !important',
                   }}
                 >
-                  {activeView === 'chart' ? (
-                    <ChartPreview
-                      compact={isLaptop || isTablet}
-                      fullHeight={true}
-                    />
-                  ) : (
-                    <Box sx={{ p: 2, height: '100%', overflow: 'auto' }}>
-                      {/* Tools view content will be added here */}
-                      <div>Tools Panel - Coming Soon</div>
-                    </Box>
-                  )}
-                </Box>
+                  <Box
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      backgroundColor: 'background.paper',
+                      borderRadius: 2,
+                      boxShadow: theme.shadows[1],
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {activeView === 'chart' ? (
+                      <ChartPreview
+                        compact={isLaptop || isTablet}
+                        fullHeight={true}
+                      />
+                    ) : (
+                      <Box sx={{ p: 2, height: '100%', overflow: 'auto' }}>
+                        {/* Tools view content will be added here */}
+                        <div>Tools Panel - Coming Soon</div>
+                      </Box>
+                    )}
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </Container>
         </Box>
+        
+        {/* Floating Help Button */}
+        <Tooltip title={showDebugger ? "Hide Help" : "Show Help & Options Guide"}>
+          <Fab
+            color="primary"
+            aria-label="help"
+            onClick={() => setShowDebugger(!showDebugger)}
+            sx={{
+              position: 'fixed',
+              bottom: 16,
+              right: 16,
+              zIndex: 1200,
+            }}
+          >
+            <HelpIcon />
+          </Fab>
+        </Tooltip>
       </Box>
     </ThemeProvider>
   );
