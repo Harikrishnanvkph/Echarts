@@ -10,6 +10,8 @@ import {
   Menu,
   MenuItem,
   Divider,
+  Badge,
+  Chip,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -39,6 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ onViewChange, activeView = 'char
     currentChart,
     isDarkMode,
     isPreviewMode,
+    sidebarOpen,
     toggleSidebar,
     toggleDarkMode,
     togglePreviewMode,
@@ -75,19 +78,41 @@ export const Header: React.FC<HeaderProps> = ({ onViewChange, activeView = 'char
     <>
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="toggle sidebar"
-            edge="start"
-            onClick={toggleSidebar}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Tooltip title={sidebarOpen ? "Close Chart Editor" : "Open Chart Editor (15+ chart types, data editor, styling options)"}>
+            <Badge 
+              badgeContent={!sidebarOpen ? "!" : null} 
+              color="warning"
+              sx={{ mr: 2 }}
+            >
+              <IconButton
+                color="inherit"
+                aria-label="toggle sidebar"
+                edge="start"
+                onClick={toggleSidebar}
+                sx={{ 
+                  backgroundColor: !sidebarOpen ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  }
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Badge>
+          </Tooltip>
 
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 0, mr: 4 }}>
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 0, mr: 2 }}>
             ECharts Studio
           </Typography>
+
+          {!sidebarOpen && (
+            <Chip 
+              label="Chart Editor Hidden - Click ☰ to open"
+              color="warning"
+              size="small"
+              sx={{ mr: 2 }}
+            />
+          )}
 
           <Box sx={{ display: 'flex', gap: 1, flexGrow: 1 }}>
             <Button
