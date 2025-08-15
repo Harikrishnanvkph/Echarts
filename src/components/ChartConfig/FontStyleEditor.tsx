@@ -26,7 +26,7 @@ import {
   Stack,
   InputAdornment,
   Popover,
-  ColorPicker,
+  // ColorPicker, // Not a MUI component
   Tab,
   Tabs,
 } from '@mui/material';
@@ -48,10 +48,12 @@ import {
   BorderStyle,
   Opacity,
   Height,
-  Width,
+  // Width, // Not available in MUI v7
+  WidthFull as Width,
   Padding,
   Margin,
-  Shadow,
+  // Shadow, // Not available in MUI v7
+  LightMode as Shadow,
   Gradient,
   TextFields,
   Title,
@@ -381,7 +383,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
       {/* Text Tab */}
       {activeTab === 0 && (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <TextField
               fullWidth
               label="Text Content"
@@ -394,7 +396,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
           
           {element === 'title' && (
             <>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   fullWidth
                   label="Subtitle"
@@ -402,7 +404,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   onChange={(e) => handleStyleChange('subtext', e.target.value, false)}
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid size={8}>
                 <TextField
                   fullWidth
                   label="Link URL"
@@ -413,7 +415,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   }}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid size={4}>
                 <FormControl fullWidth>
                   <InputLabel>Target</InputLabel>
                   <Select
@@ -428,7 +430,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </>
           )}
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControlLabel
               control={
                 <Switch
@@ -445,7 +447,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
       {/* Font Tab */}
       {activeTab === 1 && (
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FormControl fullWidth>
               <InputLabel>Font Family</InputLabel>
               <Select
@@ -461,7 +463,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FormControl fullWidth>
               <InputLabel>Font Weight</InputLabel>
               <Select
@@ -477,7 +479,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Typography gutterBottom>Font Size: {config.textStyle?.fontSize || 14}px</Typography>
             <Slider
               value={config.textStyle?.fontSize || 14}
@@ -495,7 +497,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Typography gutterBottom>Line Height: {config.textStyle?.lineHeight || 1.5}</Typography>
             <Slider
               value={config.textStyle?.lineHeight || 1.5}
@@ -513,7 +515,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Box sx={{ display: 'flex', gap: 1 }}>
               <ToggleButtonGroup
                 value={config.textStyle?.fontStyle || 'normal'}
@@ -538,7 +540,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
       {/* Colors Tab */}
       {activeTab === 2 && (
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography>Text Color:</Typography>
               <Box
@@ -561,7 +563,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography>Background:</Typography>
               <Box
@@ -584,7 +586,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography>Border Color:</Typography>
               <Box
@@ -607,7 +609,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Border Width"
@@ -620,11 +622,11 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider sx={{ my: 1 }}>Text Border & Shadow</Divider>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography>Text Border:</Typography>
               <Box
@@ -647,7 +649,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Text Border Width"
@@ -660,7 +662,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography>Shadow Color:</Typography>
               <Box
@@ -683,7 +685,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Shadow Blur"
@@ -701,7 +703,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
       {/* Layout Tab */}
       {activeTab === 3 && (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom>Text Alignment</Typography>
             <ToggleButtonGroup
               value={config.textStyle?.align || 'auto'}
@@ -716,7 +718,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </ToggleButtonGroup>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom>Vertical Alignment</Typography>
             <ToggleButtonGroup
               value={config.textStyle?.verticalAlign || 'auto'}
@@ -731,7 +733,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </ToggleButtonGroup>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom>Baseline</Typography>
             <FormControl fullWidth>
               <Select
@@ -747,7 +749,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Width"
@@ -756,7 +758,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Height"
@@ -765,10 +767,10 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom>Padding</Typography>
             <Grid container spacing={1}>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Top"
                   type="number"
@@ -782,7 +784,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Right"
                   type="number"
@@ -796,7 +798,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Bottom"
                   type="number"
@@ -810,7 +812,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Left"
                   type="number"
@@ -827,7 +829,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </Grid>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Item Gap"
@@ -840,10 +842,10 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom>Position</Typography>
             <Grid container spacing={1}>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Left"
                   value={config.left || 'auto'}
@@ -851,7 +853,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Top"
                   value={config.top || 'auto'}
@@ -859,7 +861,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Right"
                   value={config.right || 'auto'}
@@ -867,7 +869,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Bottom"
                   value={config.bottom || 'auto'}
@@ -883,13 +885,13 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
       {/* Effects Tab */}
       {activeTab === 4 && (
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="subtitle2" gutterBottom>
               Shadow Effects
             </Typography>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography>Shadow Color:</Typography>
               <Box
@@ -912,7 +914,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Typography gutterBottom>Shadow Blur: {config.shadowBlur || 0}px</Typography>
             <Slider
               value={config.shadowBlur || 0}
@@ -928,7 +930,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Shadow Offset X"
@@ -941,7 +943,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Shadow Offset Y"
@@ -954,11 +956,11 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider sx={{ my: 1 }}>Text Shadow</Divider>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Text Shadow Offset X"
@@ -971,7 +973,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Text Shadow Offset Y"
@@ -984,14 +986,14 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Divider sx={{ my: 1 }}>Border Radius</Divider>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography gutterBottom>Border Radius</Typography>
             <Grid container spacing={1}>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Top-Left"
                   type="number"
@@ -1005,7 +1007,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Top-Right"
                   type="number"
@@ -1019,7 +1021,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Bottom-Right"
                   type="number"
@@ -1033,7 +1035,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
                   size="small"
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid size={3}>
                 <TextField
                   label="Bottom-Left"
                   type="number"
@@ -1055,7 +1057,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
       {/* Advanced Tab */}
       {activeTab === 5 && (
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FormControl fullWidth>
               <InputLabel>Text Border Type</InputLabel>
               <Select
@@ -1071,7 +1073,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Border Dash Offset"
@@ -1081,7 +1083,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FormControl fullWidth>
               <InputLabel>Text Overflow</InputLabel>
               <Select
@@ -1096,7 +1098,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Ellipsis"
@@ -1105,7 +1107,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Z-Level"
@@ -1115,7 +1117,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label="Z-Index"
@@ -1125,7 +1127,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FormControlLabel
               control={
                 <Switch
@@ -1137,7 +1139,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography variant="subtitle2" gutterBottom>
               Rich Text Styles (Advanced)
             </Typography>

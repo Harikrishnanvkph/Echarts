@@ -133,8 +133,7 @@ function App() {
               }}
             >
               <Grid
-                item
-                xs={12}
+                size={12}
                 sx={{
                   height: '100%',
                   paddingTop: '0 !important',

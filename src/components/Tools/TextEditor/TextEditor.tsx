@@ -45,7 +45,7 @@ import {
   Code,
   Link,
   Image,
-  Table,
+  TableChart as Table,
   Undo,
   Redo,
   Save,
@@ -104,7 +104,7 @@ import {
   Comment,
   Forum,
   RateReview,
-  Track Changes,
+  TrackChanges,
   CompareArrows,
   MergeType,
   CallSplit,
@@ -429,6 +429,18 @@ export const TextEditor: React.FC<TextEditorProps> = ({
 
   const editorRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [renderedMarkdown, setRenderedMarkdown] = useState('');
+
+  // Render markdown when content changes
+  useEffect(() => {
+    if (language === 'markdown' && splitView) {
+      marked(content).then((html) => {
+        setRenderedMarkdown(DOMPurify.sanitize(html));
+      }).catch(() => {
+        setRenderedMarkdown('Error rendering markdown');
+      });
+    }
+  }, [content, language, splitView]);
 
   // Auto-save functionality
   useEffect(() => {
@@ -695,7 +707,8 @@ export const TextEditor: React.FC<TextEditorProps> = ({
     saveAs(blob, 'document.docx');
   };
 
-  const exportAsHTML = (content: string) => {
+  const exportAsHTML = async (content: string) => {
+    const renderedHtml = await marked(content);
     const html = `
       <!DOCTYPE html>
       <html>
@@ -707,7 +720,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({
         </style>
       </head>
       <body>
-        ${marked(content)}
+        ${renderedHtml}
       </body>
       </html>
     `;
@@ -888,7 +901,7 @@ export const TextEditor: React.FC<TextEditorProps> = ({
               <Box sx={{ flex: 1, p: 2, overflow: 'auto', borderLeft: '1px solid', borderColor: 'divider' }}>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(marked(content)),
+                    __html: renderedMarkdown,
                   }}
                   style={{
                     fontSize: `${fontSize}px`,

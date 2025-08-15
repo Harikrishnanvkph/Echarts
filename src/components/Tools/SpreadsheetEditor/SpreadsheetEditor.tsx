@@ -172,7 +172,8 @@ import {
   DragHandle,
   OpenWith,
   Height,
-  Width,
+  // Width, // Not available in MUI v7, using WidthFull as alternative
+  WidthFull as Width,
   AspectRatio,
   CropFree,
   CropSquare,
@@ -230,7 +231,7 @@ import {
   Bookmarks,
   CollectionsBookmark,
   Label,
-  LabelOutline,
+  LabelOutlined as LabelOutline,
   Category,
   Folder,
   FolderOpen,
@@ -333,7 +334,8 @@ import {
   QrCode,
   QrCode2,
   QrCodeScanner,
-  Barcode,
+  // Barcode, // Not available in MUI v7, using QrCode as alternative
+  QrCode as Barcode,
   Scanner,
   CameraAlt,
   PhotoCamera,
@@ -372,7 +374,8 @@ import {
   SettingsInputAntenna,
   SettingsOverscan,
   SettingsBrightness,
-  SettingsDisplay,
+  // SettingsDisplay, // Not available in MUI v7, using DisplaySettings as alternative
+  DisplaySettings as SettingsDisplay,
   SettingsPhone,
   SettingsPower,
   SettingsRemote,
@@ -390,9 +393,11 @@ import {
   HomeRepairService,
   CleaningServices,
   Wash,
-  DryClean,
+  // DryClean, // Not available in MUI v7, using DryCleaning as alternative
+  DryCleaning as DryClean,
   LocalLaundryService,
-  IronIcon,
+  // IronIcon, // Not available in MUI v7, using Iron as alternative
+  Iron as IronIcon,
   Checkroom,
   RoomService,
   RoomPreferences,
@@ -413,7 +418,8 @@ import {
   Roofing,
   Foundation,
   Window,
-  Door,
+  // Door, // Not available in MUI v7, using DoorFront as alternative
+  DoorFront as Door,
   DoorFront,
   DoorBack,
   DoorSliding,
@@ -443,7 +449,7 @@ import {
   Male,
   Female,
 } from '@mui/icons-material';
-import { DataGrid, GridColDef, GridRowsProp, GridToolbar, GridCellParams, GridRowParams, GridSelectionModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowsProp, GridToolbar, GridCellParams, GridRowParams, GridRowSelectionModel } from '@mui/x-data-grid';
 import { DatePicker, TimePicker, DateTimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -1769,7 +1775,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
       
       if (cellStyles[key]) {
         cellProperties.className = 'custom-cell';
-        cellProperties.renderer = (instance: any, td: HTMLElement, row: number, col: number, prop: any, value: any, cellProperties: any) => {
+        cellProperties.renderer = function(instance: any, td: HTMLElement, row: number, col: number, prop: any, value: any, cellProperties: any) {
           Handsontable.renderers.TextRenderer.apply(this, arguments as any);
           Object.assign(td.style, cellStyles[key]);
         };
@@ -2041,7 +2047,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
             <Typography>Choose export format:</Typography>
             <Grid container spacing={1}>
               {['xlsx', 'csv', 'json', 'pdf', 'html'].map(format => (
-                <Grid item xs={6} key={format}>
+                <Grid size={6} key={format}>
                   <Button
                     fullWidth
                     variant="outlined"
