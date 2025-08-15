@@ -42,8 +42,8 @@ import {
   LinearProgress,
   CircularProgress,
   Collapse,
-  TreeView,
-  TreeItem,
+  // TreeView, // Moved to @mui/x-tree-view
+  // TreeItem, // Moved to @mui/x-tree-view
   Popover,
   Menu,
   Grid,
@@ -276,7 +276,8 @@ import {
   Image,
   PhotoLibrary,
   Collections,
-  Burst,
+  // Burst, // Not available in MUI v7, using BurstMode as alternative
+  BurstMode as Burst,
   Photo,
   AddAPhoto,
   AddPhotoAlternate,
@@ -321,7 +322,8 @@ import {
   Bungalow,
   Warehouse,
   Factory,
-  Corporate,
+  // Corporate, // Not available in MUI v7, using CorporateFare as alternative
+  CorporateFare as Corporate,
   Foundation,
   Domain,
   Dns,
@@ -371,7 +373,8 @@ import {
   FormatAlignRight,
   FormatAlignJustify,
   FormatLineSpacing,
-  FormatParagraph,
+  // FormatParagraph, // Not available in MUI v7, using Subject as alternative
+  Subject as FormatParagraph,
   FormatTextdirectionLToR,
   FormatTextdirectionRToL,
   FormatSize,
@@ -470,7 +473,8 @@ import {
   SlowMotionVideo,
   Speed as SpeedIcon,
   HighQuality,
-  LowQuality,
+  // LowQuality, // Not available in MUI v7, using HighQuality as alternative
+  HighQuality as LowQuality,
   ClosedCaption,
   ClosedCaptionDisabled,
   ClosedCaptionOff,
@@ -489,6 +493,8 @@ import {
   PlaylistAddCheckOutlined,
   PlaylistPlayOutlined,
   PlaylistRemoveOutlined,
+  Check,
+  Circle,
 } from '@mui/icons-material';
 import Editor from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
@@ -1136,7 +1142,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
       });
 
       // Add custom commands
-      editorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, () => {
+      editorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
         handleSave();
       });
 
@@ -1148,11 +1154,11 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         handleDebug();
       });
 
-      editorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_B, () => {
+      editorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyB, () => {
         setSidebarOpen(!sidebarOpen);
       });
 
-      editorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_J, () => {
+      editorRef.current.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyJ, () => {
         setBottomPanelOpen(!bottomPanelOpen);
       });
 
@@ -1192,13 +1198,13 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           background: terminalSettings.theme === 'dark' ? '#1e1e1e' : '#ffffff',
           foreground: terminalSettings.theme === 'dark' ? '#d4d4d4' : '#333333',
           cursor: '#aeafad',
-          selection: '#264f78',
+          // selection: '#264f78', // This property is not available in ITheme
         },
         cursorStyle: terminalSettings.cursorStyle as any,
         cursorBlink: terminalSettings.cursorBlink,
         scrollback: terminalSettings.scrollback,
         rightClickSelectsWord: terminalSettings.rightClickSelectsWord,
-        rendererType: terminalSettings.rendererType as any,
+        // rendererType: terminalSettings.rendererType as any, // Not available in newer xterm versions
         allowTransparency: terminalSettings.allowTransparency,
         tabStopWidth: terminalSettings.tabStopWidth,
         screenReaderMode: terminalSettings.screenReaderMode,
@@ -1326,14 +1332,14 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   }, 1000);
 
   // Format code
-  const formatCode = () => {
+  const formatCode = async () => {
     try {
       let formatted = code;
 
       switch (selectedLanguage) {
         case 'javascript':
         case 'typescript':
-          formatted = prettier.format(code, {
+          formatted = await prettier.format(code, {
             parser: selectedLanguage === 'typescript' ? 'typescript' : 'babel',
             plugins: [selectedLanguage === 'typescript' ? parserTypescript : parserBabel],
             semi: true,
@@ -1345,7 +1351,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           });
           break;
         case 'html':
-          formatted = prettier.format(code, {
+          formatted = await prettier.format(code, {
             parser: 'html',
             plugins: [parserHtml],
             tabWidth: editorSettings.tabSize,
@@ -1354,21 +1360,21 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         case 'css':
         case 'scss':
         case 'less':
-          formatted = prettier.format(code, {
+          formatted = await prettier.format(code, {
             parser: 'css',
             plugins: [parserCss],
             tabWidth: editorSettings.tabSize,
           });
           break;
         case 'markdown':
-          formatted = prettier.format(code, {
+          formatted = await prettier.format(code, {
             parser: 'markdown',
             plugins: [parserMarkdown],
             tabWidth: editorSettings.tabSize,
           });
           break;
         case 'yaml':
-          formatted = prettier.format(code, {
+          formatted = await prettier.format(code, {
             parser: 'yaml',
             plugins: [parserYaml],
             tabWidth: editorSettings.tabSize,
@@ -1651,18 +1657,11 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
             {/* Sidebar Content */}
             <Box sx={{ flex: 1, overflow: 'auto', p: 1 }}>
               {activePanel === 'explorer' && (
-                <TreeView
-                  defaultCollapseIcon={<ExpandMore />}
-                  defaultExpandIcon={<ChevronRight />}
-                >
-                  <TreeItem nodeId="1" label="src">
-                    <TreeItem nodeId="2" label="components" />
-                    <TreeItem nodeId="3" label="utils" />
-                    <TreeItem nodeId="4" label="styles" />
-                  </TreeItem>
-                  <TreeItem nodeId="5" label="public" />
-                  <TreeItem nodeId="6" label="package.json" />
-                </TreeView>
+                <Box sx={{ p: 2 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    File explorer (TreeView component needs @mui/x-tree-view package)
+                  </Typography>
+                </Box>
               )}
 
               {activePanel === 'search' && (
@@ -1856,16 +1855,16 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
                 letterSpacing: editorSettings.letterSpacing,
                 lineHeight: editorSettings.lineHeight,
                 rulers: editorSettings.rulers,
-                renderIndentGuides: editorSettings.renderIndentGuides,
+                // renderIndentGuides: editorSettings.renderIndentGuides, // Deprecated in newer Monaco versions
                 highlightActiveIndentGuide: editorSettings.highlightActiveIndentGuide,
                 bracketPairColorization: { enabled: editorSettings.bracketPairColorization },
                 'semanticHighlighting.enabled': editorSettings.semanticHighlighting,
                 quickSuggestions: editorSettings.quickSuggestions,
                 suggestSelection: editorSettings.suggestSelection as any,
                 tabCompletion: editorSettings.tabCompletion as any,
-                wordBasedSuggestions: editorSettings.wordBasedSuggestions,
+                wordBasedSuggestions: editorSettings.wordBasedSuggestions ? 'currentDocument' : 'off' as any,
                 parameterHints: { enabled: editorSettings.parameterHints },
-                inlayHints: { enabled: editorSettings.inlayHints },
+                inlayHints: { enabled: editorSettings.inlayHints ? 'on' : 'off' as any },
                 stickyScroll: { enabled: editorSettings.stickyScroll },
                 columnSelection: editorSettings.columnSelection,
                 linkedEditing: editorSettings.linkedEditing,
@@ -1974,22 +1973,11 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
 
             <Box sx={{ flex: 1, overflow: 'auto', p: 2 }}>
               {activeRightPanel === 'outline' && (
-                <TreeView
-                  defaultCollapseIcon={<ExpandMore />}
-                  defaultExpandIcon={<ChevronRight />}
-                >
-                  <TreeItem nodeId="1" label="Functions">
-                    <TreeItem nodeId="2" label="main()" />
-                    <TreeItem nodeId="3" label="helper()" />
-                  </TreeItem>
-                  <TreeItem nodeId="4" label="Classes">
-                    <TreeItem nodeId="5" label="MyClass" />
-                  </TreeItem>
-                  <TreeItem nodeId="6" label="Variables">
-                    <TreeItem nodeId="7" label="config" />
-                    <TreeItem nodeId="8" label="data" />
-                  </TreeItem>
-                </TreeView>
+                <Box sx={{ p: 2 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Code outline (TreeView component needs @mui/x-tree-view package)
+                  </Typography>
+                </Box>
               )}
 
               {activeRightPanel === 'timeline' && (
