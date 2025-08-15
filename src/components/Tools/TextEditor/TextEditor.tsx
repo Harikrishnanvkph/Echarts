@@ -434,11 +434,16 @@ export const TextEditor: React.FC<TextEditorProps> = ({
   // Render markdown when content changes
   useEffect(() => {
     if (language === 'markdown' && splitView) {
-      marked(content).then((html) => {
-        setRenderedMarkdown(DOMPurify.sanitize(html));
-      }).catch(() => {
-        setRenderedMarkdown('Error rendering markdown');
-      });
+      const result = marked(content);
+      if (result instanceof Promise) {
+        result.then((html: string) => {
+          setRenderedMarkdown(DOMPurify.sanitize(html));
+        }).catch(() => {
+          setRenderedMarkdown('Error rendering markdown');
+        });
+      } else {
+        setRenderedMarkdown(DOMPurify.sanitize(result));
+      }
     }
   }, [content, language, splitView]);
 

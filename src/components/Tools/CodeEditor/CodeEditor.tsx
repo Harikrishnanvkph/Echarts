@@ -1856,7 +1856,11 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
                 lineHeight: editorSettings.lineHeight,
                 rulers: editorSettings.rulers,
                 // renderIndentGuides: editorSettings.renderIndentGuides, // Deprecated in newer Monaco versions
-                highlightActiveIndentGuide: editorSettings.highlightActiveIndentGuide,
+                // highlightActiveIndentGuide: editorSettings.highlightActiveIndentGuide, // Deprecated, use guides instead
+                guides: {
+                  indentation: editorSettings.renderIndentGuides !== false,
+                  highlightActiveIndentation: editorSettings.highlightActiveIndentGuide !== false
+                },
                 bracketPairColorization: { enabled: editorSettings.bracketPairColorization },
                 'semanticHighlighting.enabled': editorSettings.semanticHighlighting,
                 quickSuggestions: editorSettings.quickSuggestions,

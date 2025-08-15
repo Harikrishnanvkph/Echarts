@@ -875,7 +875,7 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
     severity: 'info',
   });
   
-  const hotTableRef = useRef<HotTable>(null);
+  const hotTableRef = useRef<HotTable | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Formula functions
@@ -1967,8 +1967,8 @@ export const SpreadsheetEditor: React.FC<SpreadsheetEditorProps> = ({
       {/* Spreadsheet */}
       <Box ref={containerRef} sx={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
         <HotTable
-          ref={hotTableRef}
-          settings={hotSettings}
+          ref={hotTableRef as any}
+          settings={hotSettings as any}
         />
       </Box>
 

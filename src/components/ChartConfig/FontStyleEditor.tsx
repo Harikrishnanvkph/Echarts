@@ -106,6 +106,7 @@ interface TextStyle {
   overflow?: 'truncate' | 'break' | 'breakAll' | 'none';
   ellipsis?: string;
   rich?: Record<string, any>;
+  [key: string]: any; // Allow string indexing
 }
 
 interface ElementConfig {
@@ -119,6 +120,10 @@ interface ElementConfig {
   subtarget?: 'self' | 'blank';
   subtextStyle?: TextStyle;
   textAlign?: 'auto' | 'left' | 'right' | 'center';
+  trigger?: 'item' | 'axis' | 'none';
+  formatter?: string | ((params: any) => string);
+  axisPointer?: any;
+  [key: string]: any; // Allow additional properties
   textVerticalAlign?: 'auto' | 'top' | 'bottom' | 'middle';
   triggerEvent?: boolean;
   padding?: number | number[];
@@ -226,7 +231,7 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
   element,
   onChange,
 }) => {
-  const { currentChart, updateChartConfig } = useChartStore();
+  const { currentChart, updateChartOptions } = useChartStore();
   const [activeTab, setActiveTab] = useState(0);
   const [colorPickerAnchor, setColorPickerAnchor] = useState<HTMLElement | null>(null);
   const [activeColorField, setActiveColorField] = useState<string>('');
@@ -236,24 +241,22 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
   const getElementConfig = useCallback((): ElementConfig => {
     switch (element) {
       case 'title':
-        return currentChart?.config?.title || {};
+        return currentChart?.options?.title || {};
       case 'subtitle':
         return {
-          text: currentChart?.config?.title?.subtext,
-          link: currentChart?.config?.title?.sublink,
-          target: currentChart?.config?.title?.subtarget,
-          textStyle: currentChart?.config?.title?.subtextStyle,
+          text: currentChart?.options?.title?.subtext,
+          textStyle: currentChart?.options?.title?.textStyle,
         };
       case 'legend':
-        return currentChart?.config?.legend || {};
+        return currentChart?.options?.legend || {};
       case 'xAxis':
-        return currentChart?.config?.xAxis || {};
+        return currentChart?.options?.xAxis || {};
       case 'yAxis':
-        return currentChart?.config?.yAxis || {};
+        return currentChart?.options?.yAxis || {};
       case 'tooltip':
-        return currentChart?.config?.tooltip || {};
+        return currentChart?.options?.tooltip || {};
       case 'series':
-        return currentChart?.config?.series?.[0] || {};
+        return currentChart?.options?.series?.[0] || {};
       default:
         return {};
     }
@@ -307,7 +310,17 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
     setConfig(newConfig);
     
     // Update chart configuration
-    updateChartConfig(element, newConfig);
+    const updatedOptions: any = {};
+    if (element === 'subtitle') {
+      updatedOptions.title = {
+        ...currentChart?.options?.title,
+        subtext: newConfig.text,
+        textStyle: newConfig.textStyle,
+      };
+    } else {
+      updatedOptions[element] = newConfig;
+    }
+    updateChartOptions(updatedOptions);
     
     if (onChange) {
       onChange(newConfig);
@@ -335,7 +348,17 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
     if (copiedStyles) {
       const newConfig = { ...config, textStyle: { ...copiedStyles } };
       setConfig(newConfig);
-      updateChartConfig(element, newConfig);
+      const updatedOptions: any = {};
+      if (element === 'subtitle') {
+        updatedOptions.title = {
+          ...currentChart?.options?.title,
+          subtext: newConfig.text,
+          textStyle: newConfig.textStyle,
+        };
+      } else {
+        updatedOptions[element] = newConfig;
+      }
+      updateChartOptions(updatedOptions);
     }
   };
 
@@ -343,7 +366,17 @@ export const FontStyleEditor: React.FC<FontStyleEditorProps> = ({
   const handleResetStyles = () => {
     const newConfig = { ...config, textStyle: {} };
     setConfig(newConfig);
-    updateChartConfig(element, newConfig);
+    const updatedOptions: any = {};
+    if (element === 'subtitle') {
+      updatedOptions.title = {
+        ...currentChart?.options?.title,
+        subtext: newConfig.text,
+        textStyle: newConfig.textStyle,
+      };
+    } else {
+      updatedOptions[element] = newConfig;
+    }
+    updateChartOptions(updatedOptions);
   };
 
   return (
