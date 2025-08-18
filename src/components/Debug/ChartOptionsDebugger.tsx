@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper, Typography, Alert, Button, Chip, Grid } from '@mui/material';
+import { Box, Paper, Typography, Alert, Button, Chip } from '@mui/material';
 import { useChartStore } from '../../store/chartStore';
 import {
   Visibility as VisibilityIcon,
@@ -73,9 +73,9 @@ export const ChartOptionsDebugger: React.FC = () => {
         </Typography>
       </Alert>
 
-      <Grid container spacing={2} sx={{ mb: 3 }}>
+      <Box sx={{ mb: 3, display: 'grid', gap: 2, gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' } }}>
         {diagnostics.map((diag, index) => (
-          <Grid item xs={12} sm={6} key={index}>
+          <Box key={index}>
             <Box sx={{ 
               p: 2, 
               border: '1px solid',
@@ -106,9 +106,9 @@ export const ChartOptionsDebugger: React.FC = () => {
                 </Button>
               )}
             </Box>
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
 
       <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
         Available Features
